@@ -1,5 +1,5 @@
 (biologySent (ant is an insect and bee is also an insect))
 (biologySent (insect is a type of arthropod))
 (biologySent (arthropod is an invertebrate))
-(biologySent (invertebrate is a type of animal))
-(biologySent (animal is a living_thing))
+(biologySent (invertebrate is a type of animal which is a living_thing))
+

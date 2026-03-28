@@ -57,6 +57,10 @@
 ;; PHASE 1 — LOAD KB INTO TYPESPACE & CONFIGURE ECAN
 ;; ============================================================
 
+; define setStv to quickly set stv for new atoms
+(= (setStv $pattern ($mean $conf) $flag)
+    (let $space (TypeSpace) (add-atom $space ($pattern (STV $mean $conf))))
+)
 ;; Load wordnet atoms into TypeSpace (gives STV to nodes)
 !(collapse (match &wordnet ($atom ($mean $conf)) (setStv $atom ($mean $conf) true)))
 ;; Load biology KB atoms into TypeSpace
