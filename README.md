@@ -15,16 +15,43 @@ Rather than using simulated graphs, this configuration runs on thousands of node
 3. **Bridge to PLN**: The highly relevant subset of `isa` relations are converted into strict Probabilistic Logic Network `Sentence` structures (`Inheritance` links).
 4. **Reasoning**: PLN efficiently calculates transitive relations (e.g., `ant_n_01` → `animal_n_01` via a 4-hop chain) on the filtered subset of facts.
 
+---
+
 ## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Article Sentences                     │
+│  "ant is an insect", "insect is a type of arthropod"   │
+└─────────────────────┬───────────────────────────────────┘
+                      │ stimulate words
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│                     ECAN Engine                          │
+│  incident_final.pl → diffuse importance → Attentional   │
+│  (WordNet + Biology)   along real graph     Focus (AF)  │
+└─────────────────────┬───────────────────────────────────┘
+                      │ bridge: AF nodes ∩ biology KB
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│                     PLN Reasoner                         │
+│  Filtered premises → Deduction chains → New knowledge   │
+│  ant→insect, insect→arthropod  ⟹  ant→arthropod       │
+└─────────────────────────────────────────────────────────┘
+```
 
 * `ecan_pln_experiment.metta`: The main pipeline applying ECAN filtering upon the real graph, passing the refined output to PLN queries.
 * `vanilla_pln_experiment.metta`: The performance baseline doing brute-force evaluation. PLN receives all WordNet relations directly, suffering exponential branching factors.
 
 ## Execution
 
-Ensure you are located at the root of the repo (or running via PeTTa):
+First clone [ECAN](https://github.com/iCog-Labs-Dev/metta-attention), [PeTTa](https://github.com/trueagi-io/PeTTa) and this repo in the same parent folder.
+
+then 
 
 ```bash
+# go to the directory
+cd PLN-ECAN
 # Execute ECAN + PLN
 time sh ../PeTTa/run.sh ecan_pln_experiment.metta -s
 
